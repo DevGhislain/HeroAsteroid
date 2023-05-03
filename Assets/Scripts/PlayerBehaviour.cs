@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using UnityEngine;
 
 public class PlayerBehaviour : MonoBehaviour
@@ -47,7 +48,6 @@ public class PlayerBehaviour : MonoBehaviour
     private void Awake()
     {
         _rigidbody2D = GetComponent<Rigidbody2D>();
-        
     }
     
     /// <summary>
@@ -89,18 +89,35 @@ public class PlayerBehaviour : MonoBehaviour
         if(_turnDirection != 0.0f){
             _rigidbody2D.AddTorque(_turnDirection * thurstSpeed);
         }
-
     }
 
     #endregion
 
     #region Private Methods 
 
-    // Methods for the shoot bullet 
+    /// <summary>
+    /// Methods for the shoot bullet 
+    /// </summary>
     void ShootBullet()
     {
         BulletBehaviour bullet = Instantiate(bulletPrefabs, transform.position, transform.rotation);
         bullet.Project(transform.up);
+    }
+
+  
+    /// <summary>
+    /// reference for the collision with Asteroid
+    /// </summary>
+    /// <param name="collision">reference for the collision</param>
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Asteroid"))
+        {
+            _rigidbody2D.velocity = Vector3.zero;
+            _rigidbody2D.angularVelocity = 0.0f;
+            gameObject.SetActive(false);
+            FindObjectOfType<GameManager>().PlayerDies();
+        }
     }
 
     #endregion

@@ -34,6 +34,7 @@ public class BulletBehaviour : MonoBehaviour
         _rigidbody2D = GetComponent<Rigidbody2D>();
     }
 
+    
     #endregion
 
     #region Public Methods
@@ -44,7 +45,6 @@ public class BulletBehaviour : MonoBehaviour
     public void Project(Vector2 _direction)
     {
          _rigidbody2D.AddForce( _direction * _speedBullet);
-
         Destroy(gameObject, _maxLifeBullet);
     }
 
