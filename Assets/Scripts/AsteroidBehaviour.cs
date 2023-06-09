@@ -119,6 +119,7 @@ public class AsteroidBehaviour : MonoBehaviour
             {
                 CreateTheSpilt();
             }
+            FindObjectOfType<GameManager>().AsteroidDestroye(this);
             Destroy(gameObject);
         }     
     }

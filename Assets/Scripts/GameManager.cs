@@ -13,6 +13,8 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public PlayerBehaviour player;
 
+    public ParticleSystem ExplosionPlayer;
+
     /// <summary>
     /// Reference for the respawn Invulnerabily Time
     /// </summary>
@@ -27,6 +29,11 @@ public class GameManager : MonoBehaviour
     /// reference for the live of the player 
     /// </summary>
     public int live = 3;
+
+    /// <summary>
+    /// reference for the Score of the player 
+    /// </summary>
+    public int Score = 0;
 
     #endregion
 
@@ -60,6 +67,8 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void PlayerDies()
     {
+        ExplosionPlayer.transform.position = player.transform.position;
+        ExplosionPlayer.Play();
         live--;
         if (live > 0)
         {
@@ -72,11 +81,34 @@ public class GameManager : MonoBehaviour
     }
 
     /// <summary>
+    /// Methods for the Asteroid Destroye
+    /// </summary>
+    public void AsteroidDestroye(AsteroidBehaviour asteroid)
+    {
+        ExplosionPlayer.transform.position = asteroid.transform.position;
+        ExplosionPlayer.Play();
+
+        // The Score 
+        if (asteroid.size < 0.75f)
+        {
+            this.Score += 100;
+        }
+        else if (asteroid.size < 1.0f)
+        {
+            this.Score += 50;
+        }
+        else
+        {
+            this.Score += 25;
+        }
+    }
+
+    /// <summary>
     /// Methods for the Game over
     /// </summary>
     public void GameOver()
     {
-        // TO DO
+        ExplosionPlayer.loop =  true;
     }
 
     #endregion
